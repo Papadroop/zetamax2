@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer Math Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .game-container {
+            background-color: white;
+            padding: 75px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .toggle-button {
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .toggle-button.active {
+            background-color: darkgrey;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .my-button {
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .my-button:hover {
+            background-color: darkgrey;
+        }
+
+        .input-box {
+            width: 200px;
+            padding: 10px;
+            border: 2px solid grey;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <h1>Settings</h1>
+
+        <!-- Difficulty Selection -->
+        <div class="button-container" data-group="difficulty">
+            Difficulty:
+            <button class="toggle-button">Easy</button>
+            <button class="toggle-button">Medium</button>
+            <button class="toggle-button">Hard</button>
+        </div>
+
+        <div><br></div>
+
+        <!-- Mode Selection -->
+        <div class="button-container" data-group="mode">
+            Mode:
+            <button class="toggle-button">Time</button>
+            <button class="toggle-button">Questions</button>
+        </div>
+
+        <div><br></div>
+
+        <!-- Privacy Selection -->
+        <div class="button-container" data-group="privacy">
+            Privacy:
+            <button class="toggle-button">Public</button>
+            <button class="toggle-button">Private</button>
+        </div>
+
+        <div><br></div>
+        
+        <input type="number" class="input-box" placeholder="Duration" min="0" />
+
+        <br><br>
+
+        <button class="my-button">Create Game</button>
+
+        <p id="status"></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.addEventListener("click", (event) => {
+                if (event.target.classList.contains("toggle-button")) {
+                    let group = event.target.closest(".button-container").dataset.group;
+
+                    // Remove 'active' class only within the same group
+                    document.querySelectorAll(`.button-container[data-group="${group}"] .toggle-button`)
+                        .forEach(button => button.classList.remove("active"));
+
+                    // Set active button
+                    event.target.classList.add("active");
+                }
+            });
+        });
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io("http://localhost:5000");
+    </script>
+
+</body>
+
+</html>

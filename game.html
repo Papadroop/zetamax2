@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zetamax Math Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input {
+      margin-top: 10px;
+    }
+    #scoreboard {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Zetamax Math Game</h1>
+  <p id="status">Connecting...</p>
+  <p id="question">Question: What is 2 + 2?</p>
+  <input type="text" id="answer" placeholder="Enter your answer">
+  <button id="submit-answer">Submit Answer</button>
+
+  <div id="scoreboard">
+    <h2>Scores:</h2>
+    <ul id="players"></ul>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    // Update the status when connected
+    socket.on('connect', () => {
+      document.getElementById('status').textContent = "Connected!";
+    });
+
+    // Handle score updates from the server
+    socket.on('scoreUpdate', (players) => {
+      const playerList = document.getElementById('players');
+      playerList.innerHTML = ''; // Clear the current list
+      for (const playerId in players) {
+        const player = players[playerId];
+        const li = document.createElement('li');
+        li.textContent = `Player ${playerId}: ${player.score}`;
+        playerList.appendChild(li);
+      }
+    });
+
+    // Submit answer when the button is clicked
+    document.getElementById('submit-answer').onclick = () => {
+      const answer = document.getElementById('answer').value;
+      if (answer) {
+        socket.emit('submitAnswer', answer); // Send answer to server
+      }
+    };
+  </script>
+</body>
+</html>
