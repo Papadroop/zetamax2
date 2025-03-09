@@ -16,7 +16,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: url('https://www.w3schools.com/w3images/coffee.jpg');
+            background-image: url('https://img.freepik.com/free-photo/abstract-blue-geometric-shapes-background_24972-1841.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -42,6 +42,48 @@
             color: #333;
         }
 
+        .greeting {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .name-input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            font-size: 16px;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .update-button {
+            background-color: hsl(215, 47%, 82%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .update-button:hover {
+            background-color: hsl(215, 47%, 72%);
+        }
+
+        .update-button:active {
+            transform: scale(0.98);
+        }
+
         .button-container {
             display: flex;
             flex-direction: column;
@@ -49,7 +91,7 @@
         }
 
         .grey-button {
-            background-color: #4CAF50;
+            background-color: hsl(215, 47%, 82%);
             color: white;
             padding: 15px 30px;
             border: none;
@@ -63,7 +105,7 @@
         }
 
         .grey-button:hover {
-            background-color: #45a049;
+            background-color: hsl(215, 47%, 72%);
         }
 
         .grey-button:active {
@@ -96,6 +138,15 @@
 <body>
     <div class="game-container">
         <h1>Multiplayer Zetamac</h1>
+
+        <!-- Name Input and Greeting -->
+        <div class="greeting" id="greeting">Hello!</div>
+        <div class="name-input-container">
+            <input type="text" id="nameInput" placeholder="Enter your name">
+            <button class="update-button" onclick="updateGreeting()">Update</button>
+        </div>
+
+        <!-- Buttons for Create/Join Game -->
         <div class="button-container">
             <button class="grey-button" onclick="createGame()">
                 <i class="fas fa-plus-circle"></i>Create Game
@@ -106,22 +157,33 @@
         </div>
         <p class="status" id="status"></p>
     </div>
+
     <div class="footer">
-        <p>&copy; 2025 Multiplayer Math Game. All rights reserved.</p>
+        <p>&copy; HackTJ Educational Project. Chinese Taipei International Coding Team</p>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
     <script>
-        const socket = io("http://localhost:5000");
-
         function createGame() {
-            // Redirect to the game page when "Create Game" is clicked
-            window.location.href = '/game';
+            // Redirect to settings.html when "Create Game" is clicked
+            window.location.href = 'settings.html';
         }
 
         function joinGame() {
-            // Redirect to the game page when "Join Game" is clicked
-            window.location.href = '/game';
+            // Redirect to game.html when "Join Game" is clicked
+            window.location.href = 'game.html';
+        }
+
+        // Function to update greeting message
+        function updateGreeting() {
+            const name = document.getElementById("nameInput").value;
+            const greetingElement = document.getElementById("greeting");
+
+            // Update greeting with the entered name
+            if (name.trim() !== "") {
+                greetingElement.textContent = `Hello, ${name}!`;
+            } else {
+                greetingElement.textContent = "Hello!";
+            }
         }
     </script>
 </body>
